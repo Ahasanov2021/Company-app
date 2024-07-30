@@ -1,0 +1,20 @@
+version: '3.3'
+
+services:
+  pg:
+    container_name: company-postgres-db
+    image: postgres
+    ports:
+      - "5889:5432"
+    volumes:
+      - db_data:/var/lib/postgresql
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+    networks:
+      - demo-app-network
+
+
+volumes:
+  db_data: {}
+networks:
+  demo-app-network:
