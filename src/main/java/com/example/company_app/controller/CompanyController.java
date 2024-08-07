@@ -2,11 +2,15 @@ package com.example.company_app.controller;
 
 import com.example.company_app.dto.CompanyDto;
 import com.example.company_app.dto.CompanyRequest;
+import com.example.company_app.model.Branch;
+import com.example.company_app.model.Company;
+import com.example.company_app.repository.genericsearch.SearchCriteria;
 import com.example.company_app.service.CompanyService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -20,6 +24,11 @@ public class CompanyController {
     @PostMapping
     public void create(@RequestBody CompanyRequest companyRequest){
         companyService.create(companyRequest);
+    }
+
+    @PostMapping("/search")
+    public Collection<Company> search(@RequestBody List<SearchCriteria> searchCriteria){
+        return companyService.searchByName(searchCriteria);
     }
 
     @GetMapping

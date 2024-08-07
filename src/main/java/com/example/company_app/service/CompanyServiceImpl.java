@@ -5,9 +5,12 @@ import com.example.company_app.dto.CompanyRequest;
 import com.example.company_app.mapper.CompanyMapper;
 import com.example.company_app.model.Company;
 import com.example.company_app.repository.CompanyRepository;
+import com.example.company_app.repository.genericsearch.CustomSpecification;
+import com.example.company_app.repository.genericsearch.SearchCriteria;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +33,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public List<CompanyDto> findAll() {
-        return List.of();
+        return companyRepository.findAll().stream().map(company -> companyMapper.companyToDto(company)).toList();
     }
 
     @Override
@@ -46,5 +49,11 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public void delete(Long id) {
 
+    }
+
+    @Override
+    public Collection<Company> searchByName(List<SearchCriteria> searchCriteria) {
+        CustomSpecification<Company> specification = new CustomSpecification<>(searchCriteria);
+        return companyRepository.findAll(specification);
     }
 }
